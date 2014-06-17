@@ -17,9 +17,65 @@ planned, `cron` jobs actually run, and you can `ssh` into the machine with a onl
 
 ## Get Started, Right Now
 
+### Puppet Configuration to Configure Docker Puppet
+
+I heard you like using Docker so we put Puppet Docker on your Puppet host so you can... well,
+nevermind.
+
+Behold, awesome Puppet configuration for managing your Docker Puppet images on your actual hosts:
+
+**manifests/dockerhost.pp**
+
+```
+node dockerhost {
+    include 'docker'
+
+    docker::image { 'rfkrocktk/puppet': }
+    
+    docker::run { 'dockercontainer':
+        image     => 'rfkrocktk/puppet',
+        ports    => [3306],
+        hostname => 'dockercontainer',
+        env      => ['PUPPETMASTER_TCP_HOST=ultramaster.example.com'],
+        volumes  => ['/var/lib/docker/dockercontainer/ssl:/var/lib/puppet/ssl']
+    }
+}
+```
+
+**manifests/dockercontainer.pp**
+
+```
+node dockercontainer {
+    package { 'mysql-server': 
+        ensure => present
+    }
+}
+```
+
+The above example installs a Docker Puppet container on `dockerhost` and will also configure
+the `dockercontainer` Docker container running Puppet to install MySQL. How awesome is that?
+
 ## Advanced Configuration
 
+You can also do all the advanced things if you want, namely environment configuration, building
+from source, and configuring important mount points.
+
 ### Building from Source
+
+Building the Docker image is fairly simple. First, clone the repository:
+
+    $ git clone https://github.com/rfkrocktk/docker-puppet.git
+
+Next, `cd` into the repository and build it:
+
+    $ cd docker-puppet
+    $ sudo docker build --tag rfkrocktk/puppet .
+
+Docker will build the image and you'll now see it available:
+
+    $ sudo docker images
+    REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+    rfkrocktk/puppet    latest              1da181a318e7        38 minutes ago      454.6 MB
 
 ### Environment Variables
 

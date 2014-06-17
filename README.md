@@ -17,6 +17,33 @@ planned, `cron` jobs actually run, and you can `ssh` into the machine with a onl
 
 ## Get Started, Right Now
 
+Stop messing around. Install this and start running things. 
+
+    $ sudo docker pull rfkrocktk/puppet
+
+Let's start up a new Docker Puppet container which looks for a Puppet Master at `ultramaster.example.com`,
+exposes port 9999 to the host operating system, and shares its SSL certificates to the host filesystem at
+`/var/lib/docker/dockercontainer/puppet/ssl`. We'll give it a hostname of `dockerduck`, the newest superhero
+in our cosmic arsenal:
+
+    $ sudo docker --name dockerduck --hostname dockerduck -e PUPPETMASTER_TCP_HOST=ultramaster.example.com \
+        -v /var/lib/docker/dockercontainer/puppet/ssl:/var/lib/puppet/ssl rfkrocktk/puppet
+
+Next, connect to your Puppet Master and validate the certificate fingerprint for `dockerduck`:
+
+    $ ssh ultramaster
+    ultramaster:~ $ puppet cert list
+    dockerduck (FD:E7:41:C9:2C:B7:5C:27:11:0C:8F:9C:1D:F6:F9:46)
+
+Wow, it's totally the right certificate. Sign it, and then `dockerduck` will be successfully connected
+to the Puppet Master `ultramaster`:
+
+    ultramaster:~ $ puppet cert sign dockerduck
+
+The next time that `dockerduck` connects to `ultramaster`, its connection will be approved and 
+the Puppet Master will serve configuration down to it. Congratulations, you've just setup a 
+Puppet Client and with a Puppet Master, only this Puppet Client is a shreddable Docker container!
+
 ### Puppet Docker Configuration to Configure Docker Puppet
 
 I heard you like using Docker so we put Puppet Docker on your Puppet host so you can... well,

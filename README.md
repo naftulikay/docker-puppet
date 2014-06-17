@@ -17,10 +17,13 @@ planned, `cron` jobs actually run, and you can `ssh` into the machine with a onl
 
 ## Get Started, Right Now
 
-### Puppet Configuration to Configure Docker Puppet
+### Puppet Docker Configuration to Configure Docker Puppet
 
 I heard you like using Docker so we put Puppet Docker on your Puppet host so you can... well,
-nevermind.
+nevermind. This whole thing is getting too recursive for my brain.
+
+The following requires the [garethr/docker](https://forge.puppetlabs.com/garethr/docker) Puppet
+module for managing Docker.
 
 Behold, awesome Puppet configuration for managing your Docker Puppet images on your actual hosts:
 

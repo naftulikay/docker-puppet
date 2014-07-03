@@ -115,11 +115,18 @@ We currently support the following environment variables:
 |-----------------------|-----------|-------------------------------------------------------------|
 |`PUPPETMASTER_TCP_HOST`| _kind of_ | The TCP host of the Puppet Master. (DNS name or IP address) |
 |`PUPPETMASTER_TCP_PORT`| nope      | The TCP port number of the Puppet Master. Defaults to 8140. |
+|`PUPPET_AGENT_ENVIRONMENT`| nope   | The Puppet environment to use with the master.              |
 
 Though `PUPPETMASTER_TCP_HOST` isn't _exactly_ required, it's a pretty good idea to set this to your
 Puppet Master's host address. If you don't, the Puppet client won't really do anything for now. We
 have plans to add some manual `puppet apply` `cron` job for masterless configurations, but be patient
 or submit it in a pull-request.
+
+`PUPPET_AGENT_ENVIRONMENT` allows you to specify which Puppet environment the agent will request.
+If you haven't heard of Puppet environments, [check out the docs, yo](http://docs.puppetlabs.com/guides/environment.html).
+If `PUPPET_AGENT_ENVIRONMENT` is _not_ specified, it will use whatever default environment is 
+setup on the master. If you aren't already, you should definitely be using Puppet environments. 
+Yesterday.
 
 ### Volume Mount Points
 

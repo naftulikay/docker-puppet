@@ -18,9 +18,13 @@ RUN curl -o puppet.deb -s https://apt.puppetlabs.com/puppetlabs-release-trusty.d
 RUN apt-get update -q 2 && DEBIAN_FRONTEND=noninteractive \
     apt-get install --yes -q 2 puppet >/dev/null
 
-# Install runit startup script
-ADD scripts/puppet-agent.sh /etc/service/puppet/run
-RUN chmod +x /etc/service/puppet/run
+# Install startup script for adding the cron job
+ADD scripts/50_add_puppet_cron.sh /etc/my_init.d/
+RUN chmod +x /etc/my_init.d/50_add_puppet_cron.sh
+
+# Install actual Puppet agent run command
+ADD scripts/run-puppet-agent.sh /sbin/run-puppet-agent
+RUN chmod +x /sbin/run-puppet-agent
 
 # Use the runit init system.
 CMD ["/sbin/my_init"]

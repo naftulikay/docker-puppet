@@ -3,8 +3,8 @@
 # load environment variables
 source /etc/container_environment.sh
 
-# default puppet master port is 8410
-test -z "$PUPPETMASTER_TCP_PORT" && export PUPPETMASTER_TCP_PORT="8410"
+# default puppet master port is 8140
+test -z "$PUPPETMASTER_TCP_PORT" && export PUPPETMASTER_TCP_PORT="8140"
 
 puppet_agent_args="--no-daemonize"
 

@@ -121,7 +121,7 @@ We currently support the following environment variables:
 |-----------------------|-----------|-------------------------------------------------------------|
 |`PUPPETMASTER_TCP_HOST`| yeah | The TCP host of the Puppet Master. (DNS name or IP address). If not specified the Puppet Agent will not attempt to connect to a master. |
 |`PUPPETMASTER_TCP_PORT`| nope      | The TCP port number of the Puppet Master. Defaults to 8140. |
-|`PUPPET_AGENT_ENVIRONMENT`| nope   | The Puppet environment to use with the master. This _is_ required if your Puppet Master is configured to use environments. |
+|`PUPPET_AGENT_ENVIRONMENT`| nope   | The Puppet environment to use with the master. If your Puppet Master is configured to use environments and you don't pass this variable, it will default to `production` on the master. |
 |`PUPPET_AGENT_CRON`    | nope | The CRON schedule at which to run the Puppet Agent. The Puppet Agent will _always_ run on system startup, in addition to whatever this value is set to. The default for this value is `0,30 * * * *`, which means that the Puppet Agent will run on boot and on the first and thirtieth minute of every hour. Don't worry, if a Puppet run overlaps another, no bad side-effects will happen; the CRON job checks to see if a Puppet Agent is running before running another one. |
 |`PUPPET_AGENT_VERBOSE` | nope | Set this environment variable to any value to enable verbose logging by the Puppet Agent. |
 |`PUPPET_AGENT_DEBUG`   | nope | Set this environment variable to any value to enable debug logging by the Puppet Agent. |

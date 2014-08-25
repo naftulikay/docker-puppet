@@ -32,7 +32,7 @@ exposes port 9999 to the host operating system, and shares its SSL certificates 
 `/var/lib/docker/dockercontainer/puppet/ssl`. We'll give it a hostname of `dockerduck`, the newest superhero
 in our cosmic arsenal:
 
-    $ sudo docker --name dockerduck --hostname dockerduck -e PUPPETMASTER_TCP_HOST=ultramaster.example.com \
+    $ sudo docker run --name dockerduck --hostname dockerduck -e PUPPETMASTER_TCP_HOST=ultramaster.example.com \
         -v /var/lib/docker/dockercontainer/puppet/ssl:/var/lib/puppet/ssl rfkrocktk/puppet
 
 Next, connect to your Puppet Master and validate the certificate fingerprint for `dockerduck`:
